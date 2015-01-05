@@ -1,0 +1,377 @@
+pbbuttonsd (0.7.9-3) unstable; urgency=low
+
+  * QA upload.
+  * Switch to dpkg-source 3.0 (quilt) format.
+  * debian/control:
+    - Maintainer field set to QA Group.
+    - Drop Uploaders field.
+    - Add ${misc:Depends} to dependencies.
+    - Bump Standards-Version to 3.9.5.
+    - Replace deprecated ${Source-Version} substvar with ${binary:Version}.
+  * debian/rules:
+    - dh_clean -k is deprecated. Replace it with dh_prep.
+    - Do not ignore make distclean errors.
+    - Add build-{arch,indep}.
+    - Build with default CFLAGS and LDFLAGS returned by dpkg-buildflags.
+  * debian/patches/01-no-ftbfs-format-security.diff:
+    - Replace a call to fprintf with no arguments with an equivalent fputs.
+    - Use "%s" as a format string and pass inptr as an argument when calling
+      syslog(3).
+  * debian/pbbuttonsd.init:
+    - Depend on $remote_fs to make sure the init script is run after /usr is
+      mounted and before it's unmounted.
+    - Remove S from Default-Stop.
+  * debian/compat:
+    - Set debhelper compatibility level to 9.
+  * debian/copyright:
+    - Point to GPL version 2.
+  * debian/pbbuttonsd.{pre,post}inst:
+    - Do not ignore errors (add set -e).
+
+ -- Emanuele Rocca <ema@debian.org>  Tue, 21 Jan 2014 09:24:33 +0000
+
+pbbuttonsd (0.7.9-2) unstable; urgency=high
+
+  * Remove i386 packages again. As the underlying hardware
+    is so completly different it actually makes no sense
+    right now to have the package there. Use software like
+    mbpeventd instead. Urgency high to indicate that this
+    is a change that would be good to have in etch.
+    Also closes: #377708
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sun, 24 Dec 2006 14:18:21 +0100
+
+pbbuttonsd (0.7.9-1) unstable; urgency=low
+
+  * New upstream version
+    + Improves performance by polling less often (Closes: #372760)
+    + Works around problems with the synaptics trackpad
+      driver (Closes: #377447)
+    + Supports sysfs backlight interface as added in Linux
+      2.6.18 (Closes: #389770)
+
+ -- Frank Lichtenheld <djpig@debian.org>  Wed,  4 Oct 2006 00:43:48 +0200
+
+pbbuttonsd (0.7.5-2) unstable; urgency=low
+
+  * Bump Standards-Version to 3.7.2 (no changes)
+  * Build the packages on i386, too. This might make sense now
+    that there are the IA32 MacBooks. Thanks to Alexander Wirt
+    for the suggestion.
+  * Do not try to call MAKEDEV if it isn't there (because of our
+    dependency on makedev | udev).
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sun, 18 Jun 2006 22:41:15 +0200
+
+pbbuttonsd (0.7.5-1) unstable; urgency=low
+
+  * new upstream release
+    + call sync() on suspend-to-disk (Closes: #357595)
+    + can dim lcd brightness to 0 while in autoadjust mode (Closes: #345314)
+  * cd /dev ; MAKEDEV pmu in postinst (Closes: #350798) 
+
+ -- Filippo Giunchedi <filippo@debian.org>  Sun, 14 May 2006 10:35:40 -0500
+
+pbbuttonsd (0.7.4-1) unstable; urgency=low
+
+  * New upstream release
+  * You shouldn't need makedev if you have udev, so change dependencies
+    accordingly
+  * Update debhelper compat version to 5
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sat, 28 Jan 2006 14:28:28 +0100
+
+pbbuttonsd (0.7.2-1) unstable; urgency=low
+
+  * New upstream release
+    - handle events when lid is closed (Closes: #306482)
+    - better support for suspend-to-disk (Closes: #329369)
+    - don't abort on start if sound system can't be loaded
+      (Closes: #325309, #321631)
+  * Convert init script to use the lsb init functions and
+    add lsb init info
+
+ -- Frank Lichtenheld <djpig@debian.org>  Thu, 29 Sep 2005 02:05:41 +0200
+
+pbbuttonsd (0.7.1-2) unstable; urgency=low
+
+  * Apply patch by Martin Pitt from the Ubuntu package, which
+    fixes an incorrect call of apm scripts on resume
+    (Closes: #329368)
+  * Update FSF address in copyright file
+
+ -- Frank Lichtenheld <djpig@debian.org>  Wed, 28 Sep 2005 17:26:28 +0200
+
+pbbuttonsd (0.7.1-1) unstable; urgency=low
+
+  * New upstream release
+    + Fix some remaining issues for sh != bash (Closes: #295178)
+    + Fix some remaining issues with ejecting the cdrom in case
+      the device is a symlink (Closes: #312480)
+    + Change behaviour of shift key for volume up/down to better
+      cope with ALSA drivers that offer a very fine grained volume
+      setting and fix a bug that occoured if there were more than
+      100 possible settings (Closes: #318032)
+
+ -- Frank Lichtenheld <djpig@debian.org>  Fri, 22 Jul 2005 14:33:06 +0300
+
+pbbuttonsd (0.7.0-1) unstable; urgency=low
+
+  * New upstream release
+    + Quite some fixes to solve the 100% CPU problems and to
+      improve the ALSA support
+    + Closes: #315377: pbbuttonsd: mute key doesn't unmute anymore
+    + Closes: #313919: pbbuttonsd: [INTL:de] German PO file corrections
+    + It does not fix (completly) the problems with ejecting when
+      using symlinks (see #312480) even though the changelog claims
+      otherwise
+  * Update Standards-Version to 3.6.2 (no changes)
+  * Remove Depends on eject
+  * Add Recommends on laptop-mode-tools, this should fix the problems
+    with the laptop-mode.sh script (Closes: #290766, #309267)
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sun, 10 Jul 2005 16:34:04 +0300
+
+pbbuttonsd (0.6.10-2) unstable; urgency=low
+
+  * Upload to unstable
+
+ -- Frank Lichtenheld <djpig@debian.org>  Mon, 20 Jun 2005 16:14:17 +0200
+
+pbbuttonsd (0.6.10-1) experimental; urgency=low
+
+  * New upstream version
+    + Should fix problem where pbbuttonsd ate 100% CPU in
+      certain situations (Closes: #308075)
+  
+ -- Frank Lichtenheld <djpig@debian.org>  Fri, 27 May 2005 01:08:22 +0200
+
+pbbuttonsd (0.6.9-1) experimental; urgency=low
+
+  * New upstream version
+    + documents the shift modifier ore prominently (Closes: #280211)
+    + should work with sh != bash now (Closes: #295178)
+    + report errors on startup (Closes: #188317)
+  * Add patch by upstream to fix program exits on E_NOSUPPORT
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sun, 10 Apr 2005 23:10:24 +0200
+
+pbbuttonsd (0.6.8-1) experimental; urgency=low
+
+  * New upstream version
+  * Remove Jan from Uploaders, haven't heard from him anything
+    since I adopted the package
+  * Use MAKEDEV to create the pmu file, depends on makedev (>= 2.3.1-78)
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sat, 26 Mar 2005 23:10:01 +0100
+
+pbbuttonsd (0.6.7-1) experimental; urgency=low
+
+  * New upstream version
+    + Adds ALSA support (Closes: #292387)
+  * Apply patch from upstream which fixes a segfault discovered
+    shortly after the release
+
+ -- Frank Lichtenheld <djpig@debian.org>  Fri, 28 Jan 2005 12:25:35 +0100
+
+pbbuttonsd (0.6.6-3) unstable; urgency=medium
+
+  * Add logcheck file (ignore.workstation)
+
+ -- Frank Lichtenheld <djpig@debian.org>  Wed,  1 Dec 2004 00:15:48 +0100
+
+pbbuttonsd (0.6.6-2) unstable; urgency=medium
+
+  * Correct upstream mail address in debian/copyright
+  * Fix watch file
+  * Change Architecture back to powerpc until I decide to officially
+    support pbbuttons on other Architectures in Debian. Upstream says
+    it's possible but I have currently definetly not the time to
+    test it.
+
+ -- Frank Lichtenheld <djpig@debian.org>  Thu, 18 Nov 2004 23:53:46 +0100
+
+pbbuttonsd (0.6.6-1) unstable; urgency=low
+
+  * New upstream release
+    + fixes "setting brightness no longer works with ver 0.6.5 after
+      lid close + reopen" according to upstream (Closes: #272253)
+  * Upload to unstable again
+  
+ -- Frank Lichtenheld <djpig@debian.org>  Thu, 11 Nov 2004 17:07:59 +0100
+
+pbbuttonsd (0.6.5-1) experimental; urgency=low
+
+  * New upstream version
+    + upstream removed setupenv script, adapt rules and install files
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sun, 12 Sep 2004 21:40:38 +0200
+
+pbbuttonsd (0.6.3a-2) unstable; urgency=medium
+
+  * Change check in preinst and posinst so that it doesn't
+    fail with exitcode 1 if the old configuration directory
+    doesn't exist (Closes: #265804)
+  * Use code from pmud to create /dev/pmu in postinst
+  * Urgency medium since this are RC bugs
+
+ -- Frank Lichtenheld <djpig@debian.org>  Tue, 17 Aug 2004 13:10:15 +0200
+
+pbbuttonsd (0.6.3a-1) unstable; urgency=low
+
+  * New upstream version
+    - Lid open/close can now trigger an action (Closes: #257104)
+    - Typos in config file fixed (Closes: #257029)
+  * Makefile.in: Remove unneeded Debian change from
+    Makefile.in which changes nothing
+  * debian/pbbuttonsd.postinst: Add some additional logic
+    to the config clean-up to cope better with the changed
+    config file
+  * debian/pbbuttonsd.init:
+    - Add --oknodo to start-stop-daemon --stop on restart
+      so that the daemon is started even if it is not running
+    - Fix usage information of the init script
+  
+ -- Frank Lichtenheld <djpig@debian.org>  Thu, 22 Jul 2004 22:49:13 +0200
+
+pbbuttonsd (0.6.3-1) unstable; urgency=low
+
+  * New upstream version
+    - Should fix problems with kernel 2.6.x and Alsa
+  * Move config file to upstream location (/etc/pbbuttonsd.conf)
+    again. Try to clean up the mess we caused a bit in
+    pre- and postinst. Add a note in NEWS.Debian about this.
+    (Closes: #260457)
+  
+ -- Frank Lichtenheld <djpig@debian.org>  Thu, 22 Jul 2004 01:10:32 +0200
+
+pbbuttonsd (0.6.2-1) unstable; urgency=low
+
+  * Take this package over from Jan with his
+    approval. Acknowledge my own NMU.
+  * Make myself maintainer and move Jan to Uploaders
+  * Use /bin/bash in setupenv.sh as the script uses
+    some non-POSIX constructs
+  * Rename setupenv.sh to pbbuttonsd-setupenv on install
+  * Update watch file to format version 2 and ensure
+    that the pbbuttonsd-doc tar ball isn't matching
+
+ -- Frank Lichtenheld <djpig@debian.org>  Tue, 29 Jun 2004 21:57:15 +0200
+
+pbbuttonsd (0.6.1-0.1) unstable; urgency=low
+
+  * Non-maintainer upload to fix RC bug
+  * New upstream release (Closes: #254932)
+    + New release fixes (some of them according to
+      upstream, I couldn't test all)
+      - "#244361: pbbuttonsd: FTBFS: Cannot find depcomp"
+        (Closes: #244361)
+      - "#253862: pbbuttonsd do not install with Linux
+        Kernel 2.6.6" (Closes: #253862, #254079)
+      - "#249285: pbbuttonsd: typo in manpage; missing `,
+        but additionaly I had to escape the `, otherwise
+        they do not display correctly if using UTF-8
+        (Closes: #249285)
+      - "#250379: pbbuttonsd: shutdown can wall, avoid bashism"
+        (Closes: #250379)
+      - "#249783: pbbuttonsd: Don't light up the screen if
+        the lid is closed" (Closes: #249783)
+      - "#249782: pbbuttonsd: brightness doesn't reach old
+        value after sleep" (Closes: #249782)
+    + upstream doesn't ship debian/ anymore, so use
+      the oportunity for a little clean-up:
+      - Move debhelper compat level to debian/compat
+        and increase to 4
+      - Build-depend on debhelper (>> 4)
+      - Bump Standards-Version to 3.6.1 (no changes)
+      - Conflicts << Source-Version was redundant since
+        we have already Depends = Source-Version
+  * Uncomment reload target in init script (Closes: #244712)
+  * Escape some hyphens in man pages (s/ -HUP/ \-HUP/)
+  * Use gettext from libc, not the included one
+  * Use URL of the Sourceforge project in debian/copyright
+    as the old one gives 404
+  * Add correct copyright notice in debian/copyright
+  * Add support for DEB_BUILD_OPTIONS=noopt in debian/rules
+  
+ -- Frank Lichtenheld <djpig@debian.org>  Sat, 19 Jun 2004 14:00:11 +0200
+
+pbbuttonsd (0.5.9-1) unstable; urgency=low
+
+  * new upstream (Closes: #239574,#222039,#229108,#228119).
+  * fixed depcomp issue in Makefiles.
+  * rerun aclocal,autoheader,autoconf,automake.
+  * removed Makefile in ./debian.
+  * add dependency on hdparm (Closes: #239015).
+  * let pbbuttonsd build for any achitecture (Closes: #231112).
+  * load evdav module, if not loaded and available, when pbbuttonds is 
+    to be started (Closes: #225073).
+  * pbbuttonsd is already a replace for pmud (Closes: #208209).
+  * init-script is reporting errors (Closing: #188317).
+  * add conflict to pmud.
+
+ -- Jan-Hendrik Palic <jan.palic@linux-debian.de>  Fri,  5 Mar 2004 16:12:37 +0100
+
+pbbuttonsd (0.5.8-1) unstable; urgency=low
+
+  * new upstream version.
+
+ -- Jan-Hendrik Palic <jan.palic@linux-debian.de>  Sun,  1 Feb 2004 15:58:29 +0100
+
+pbbuttonsd (0.5.3a-2) unstable; urgency=low
+
+  * invoked some IPC-security and enabled "userallowed = paranoid" in
+    /etc/pbbuttonsd.conf
+  * bumped to 3.5.9
+
+ -- Jan-Hendrik Palic <jan.palic@linux-debian.de>  Tue, 13 May 2003 23:36:41 +0200
+
+pbbuttonsd (0.5.3a-1) unstable; urgency=low
+
+  * new upstream
+  * pbbuttons starts without cdrom-drive present (Closes: #188315).
+  * fixes pid problem (Closes: #184319).
+  * fixed the no honour eject delay=yes (Closes: #184323).
+  * add dependency to eject (Closes: #179460).
+
+ -- Jan-Hendrik Palic <jan.palic@linux-debian.de>  Mon,  5 May 2003 00:28:53 +0200
+
+pbbuttonsd (0.5.3-1) unstable; urgency=low
+
+  * new upstream release
+  * no dependency on /dev/mixer (Closes: #182218).
+  * fixed typo in configfile at ejectcddelay (Closes: #184323).
+  * included IPC control mechanism (Closes: #164881).
+  * this version is not intollerant of errors, please update (Closes: #153726).
+  * (Closes: #164882).
+  * Divided the mixer control, thnx for the issue, Christopher Allen 
+    (Closes: #176000).
+
+ -- Jan-Hendrik Palic <jan.palic@linux-debian.de>  Wed, 19 Mar 2003 23:18:14 +0100
+
+pbbuttonsd (0.5.2-1) unstable; urgency=low
+
+  * new upstream.
+  * fixed the updating problem while updating (Closes: #153725).
+  * this version allows to specify the mixer device (Closes: #176000).
+  * included dash to the buildepends, setupenv.sh needs this.
+  * bumped to 3.5.8.
+ 
+ -- Jan-Hendrik Palic <jan.palic@linux-debian.de>  Wed, 16 Oct 2002 23:30:52 +0200
+
+pbbuttonsd (0.4.10a-1) unstable; urgency=low
+
+  * new upstream version.
+  * merge with original debian-stuff.
+  * packege splitted by upstream.
+  * fixes startscript (Closes: #145594).
+
+ -- Jan-Hendrik Palic <jan.palic@linux-debian.de>  Mon, 10 Jun 2002 18:46:56 +0200
+
+pbbuttonsd (0.4.6-1) unstable; urgency=low
+
+  * Initial Release (Closes: #138434).
+  * wiped out the original debian stuff.
+
+ -- Jan-Hendrik Palic <jan.palic@linux-debian.de>  Thu, 21 Mar 2002 21:44:44 +0100
+

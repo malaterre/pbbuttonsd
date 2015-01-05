@@ -1,0 +1,23 @@
+pbbuttonsd (0.6.3-1) unstable; urgency=low
+
+  * Due to mistakes and some confusion the location
+    of the pbbuttonsd configuration file changed
+    several times. Upstream locates it at
+    /etc/pbbuttonsd.conf for some releases now, but
+    in the Debian package it was placed at
+    /etc/pbbuttons/pbbuttonsd.conf. I have reverted
+    this to use the upstream default again.
+  
+    The package will try to clean up old copies if
+    they seem unchanged from the shipped version. If
+    you have still a file /etc/pbbuttons/pbbuttonsd.conf
+    after installation, the package wasn't sure what to
+    do and left the decision up to you.
+    Sorry for any trouble and/or confusion this caused.
+  
+    The directory /etc/pbbuttons isn't used anymore in
+    the current packages and can be safely removed if
+    still existant (after you have checked its contents,
+    of course).
+  
+ -- Frank Lichtenheld <djpig@debian.org>  Thu, 22 Jul 2004 01:49:59 +0200

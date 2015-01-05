@@ -1,0 +1,49 @@
+#!/bin/sh
+
+set -e
+
+# use vars to avoid typos
+OLD_DIR=/etc/pbbuttons
+OLD_CONF=/etc/pbbuttons/pbbuttonsd.conf
+NEW_CONF=/etc/pbbuttonsd.conf
+
+if [ "$1" = "configure" ] && [ "x$2" != x ]; then
+
+    # old and new config file are identical
+    if [ -f $OLD_CONF ] && \
+        [ "`md5sum $OLD_CONF`" = "`md5sum $NEW_CONF`" ]; then
+        rm $OLD_CONF
+    fi
+
+    # old conf was unchanged
+    if [ -f $OLD_CONF ] && \
+        [ "`md5sum $OLD_CONF`" = "5a72c4383a37b481d33ad987710da074  $OLD_CONF" ]; then
+        rm $OLD_CONF
+    fi
+
+    # old config file was modified but the new one
+    # was not
+    if [ -f $OLD_CONF ] && [ ! -f $NEW_CONF.dpkg-dist ] \
+        && [ ! -f $NEW_CONF.dpkg-old ]; then
+        mv $NEW_CONF $NEW_CONF.dpkg-old
+        mv $OLD_CONF $NEW_CONF
+    fi
+
+    [ ! -d $OLD_DIR ] || rmdir --ignore-fail-on-non-empty $OLD_DIR
+fi
+
+# taken from pmud
+if [ "$1" = "configure" ]; then
+# register devices
+# FIXME consider deprecating devfs
+  if [ -e /dev/.devfsd ]; then # devfs enabled
+        update-devfsd > /dev/null 2>&1 || true
+    else # devfs not enabled
+# /dev/pmu device to interface with kernel PMU code
+        if [ ! -c /dev/pmu ] && [ -x /sbin/MAKEDEV ]; then
+	    (cd /dev ; MAKEDEV pmu)
+        fi
+    fi
+fi
+
+#DEBHELPER#

@@ -1,0 +1,36 @@
+#!/bin/sh
+
+set -e
+
+# use vars to avoid typos
+OLD_DIR=/etc/pbbuttons
+OLD_CONF=/etc/pbbuttons/pbbuttonsd.conf
+NEW_CONF=/etc/pbbuttonsd.conf
+
+do_upgrade () {
+    # if only the old files exist, move them to the new
+    # location
+    if [ -f $OLD_CONF ] && [ ! -f $NEW_CONF ]; then
+        mv $OLD_CONF $NEW_CONF
+        if [ -f $OLD_CONF.dpkg-old ] && \
+            [ ! -f $NEW_CONF.dpkg-old ]; then
+            mv $OLD_CONF.dpkg-old $NEW_CONF.dpkg-old
+        fi
+        if [ -f $OLD_CONF.dpkg-dist ] && \
+            [ ! -f $NEW_CONF.dpkg-dist ]; then
+            mv $OLD_CONF.dpkg-dist $NEW_CONF.dpkg-dist
+        fi
+    fi
+
+    [ ! -d $OLD_DIR ] || rmdir --ignore-fail-on-non-empty $OLD_DIR
+}
+
+if [ "$1" = "upgrade" ]; then
+    do_upgrade
+fi
+
+if [ "$1" = "install" ] && [ "x$2" != x ]; then
+    do_upgrade
+fi
+
+#DEBHELPER#

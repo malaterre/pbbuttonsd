@@ -1,0 +1,7 @@
+usr/bin
+usr/share/man
+usr/share/locale/de/LC_MESSAGES
+usr/share/locale/it/LC_MESSAGES
+etc/devfs/conf.d
+var/lib/pbbuttons
+var/lib/ibam

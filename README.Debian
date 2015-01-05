@@ -1,0 +1,26 @@
+pbbuttonsd for Debian
+=====================
+
+my usb/external events are ignored (i.e. the screens stays dark if I move the external mouse)
+---------------------------------------------------------------------------------------------
+pbbuttons scans event input devices only at startup, you can force it to do
+automatic rescan by setting:
+
+autorescan = yes
+
+in /etc/pbbuttonsd.conf. See also http://bugs.debian.org/324604 for further
+discussion.
+
+but it still doesn't work!
+--------------------------
+probably you are running a static /dev (commonly found with linux 2.4 kernels)
+and you have a lot of input devices. You need to create more, you can do so by
+running:
+
+mknod /dev/input/event1 c 13 65
+mknod /dev/input/event2 c 13 66
+...
+mknod /dev/input/event7 c 13 71
+
+this problem won't occur if you are using udev (only on 2.6 kernels) for
+example.

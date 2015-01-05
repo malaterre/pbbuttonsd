@@ -1,0 +1,15 @@
+--- pbbuttonsd-0.7.9.orig/libpbbipc/pbb_errno.c
++++ pbbuttonsd-0.7.9/libpbbipc/pbb_errno.c
+@@ -108,9 +108,9 @@
+  */
+ 	if (base->daemon != PBBDS_NONE) {
+ 		if (type == PBB_ERR && base->daemon != PBBDS_CHILD)
+-			fprintf(stderr, inptr);
+-		syslog(level, inptr);
++			fputs(inptr, stderr);
++		syslog(level, "%s", inptr);
+ 	} else
+-		fprintf(stderr, inptr);
++		fputs(inptr, stderr);
+ }
+ 

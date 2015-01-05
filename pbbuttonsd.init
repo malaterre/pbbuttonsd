@@ -1,0 +1,64 @@
+#! /bin/sh
+#
+# Debian startscript for pbbuttonsd
+### BEGIN INIT INFO
+# Provides:          pbbuttonsd
+# Required-Start:    $syslog $local_fs $remote_fs
+# Should-Start:      alsa
+# Required-Stop:     $syslog $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: handle special hotkeys of Apple computers
+# Description:       PBButtons is a program suite to handle the
+#  special hotkeys of an Apple iBook, Powerbook or TiBook.
+#  With this programs the keys for the display brightness, the volume of
+#  speaker and headphone, the mute key and the eject key will do their job
+#  as expected.
+# X-UnitedLinux-Default-Enabled: yes
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/bin/pbbuttonsd
+CONF=/etc/pbbuttonsd.conf
+NAME=pbbuttonsd
+DESC=pbbuttonsd
+
+test -x $DAEMON || { log_failure_msg "$DAEMON not installed"; exit 0; }
+
+case "$1" in
+  start)
+	log_daemon_msg "Starting $DESC"
+	start-stop-daemon --start --make-pidfile --pidfile \
+		/var/run/$NAME.pid --exec $DAEMON -- --configfile=$CONF -d
+	log_end_msg $? 
+	;;
+  stop)
+	log_daemon_msg "Stopping $DESC" "$NAME"
+	start-stop-daemon --oknodo --quiet --stop --make-pidfile --pidfile \
+		/var/run/$NAME.pid --exec $DAEMON
+	log_end_msg $?
+	;;
+  reload)
+	 log_action_msg "Reloading $DESC configuration files"
+	 start-stop-daemon --stop --signal 1 --quiet --pidfile \
+		/var/run/$NAME.pid --exec $DAEMON
+        ;;
+  restart|force-reload)
+	log_daemon_msg "Restarting $DESC"
+	start-stop-daemon --stop  --make-pidfile --pidfile \
+                /var/run/$NAME.pid --oknodo --exec $DAEMON
+	sleep 1
+	start-stop-daemon --start --make-pidfile --pidfile \
+		/var/run/$NAME.pid --exec $DAEMON -- --configfile=$CONF -d
+	log_end_msg $?
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

@@ -1,0 +1,8 @@
+usr/lib/libpbb.a
+usr/include/pbbipc.h
+usr/include/pbberrno.h  
+usr/include/pbb.h 
+usr/include/pbbmisc.h  
+usr/include/pbbtaglist.h  
+usr/include/pbbtags.h
+usr/include/pbblist.h
