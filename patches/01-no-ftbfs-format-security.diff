@@ -1,5 +1,7 @@
---- pbbuttonsd-0.7.9.orig/libpbbipc/pbb_errno.c
-+++ pbbuttonsd-0.7.9/libpbbipc/pbb_errno.c
+Index: pbbuttonsd-0.8.1a/libpbbipc/pbb_errno.c
+===================================================================
+--- pbbuttonsd-0.8.1a.orig/libpbbipc/pbb_errno.c	2015-01-05 14:08:11.613978849 +0100
++++ pbbuttonsd-0.8.1a/libpbbipc/pbb_errno.c	2015-01-05 14:08:13.202772958 +0100
 @@ -108,9 +108,9 @@
   */
  	if (base->daemon != PBBDS_NONE) {
