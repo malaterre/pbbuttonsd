@@ -1,3 +1,2 @@
-version=2
-
-ftp://ftp.sf.net/pub/sourceforge/p/pb/pbbuttons/pbbuttonsd-(\d.*)\.tar\.gz debian  uupdate
+version=3
+http://sf.net/pbbuttons/pbbuttonsd-([\d\.]+)\.tar\.gz
