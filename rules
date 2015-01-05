@@ -20,6 +20,7 @@ configure-stamp:
 	   	--prefix=/usr --mandir=\$${prefix}/share/man \
 		--infodir=\$${prefix}/share/info \
 		--sysconfdir=/etc \
+		--disable-debug \
 		--disable-rpath
 
 	touch configure-stamp
