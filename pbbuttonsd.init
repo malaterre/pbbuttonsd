@@ -21,7 +21,7 @@
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/bin/pbbuttonsd
-CONF=/etc/pbbuttonsd.conf
+CONF=/etc/pbbuttonsd.cnf
 NAME=pbbuttonsd
 DESC=pbbuttonsd
 

@@ -1,0 +1,81 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ pbbuttonsd (0.8.1a-1) UNRELEASED; urgency=low
+ .
+   * New upstream
+Author: Mathieu Malaterre <malat@debian.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- pbbuttonsd-0.8.1a.orig/src/debug.h
++++ pbbuttonsd-0.8.1a/src/debug.h
+@@ -21,16 +21,16 @@
+ 
+ /* module_powersave.c */
+ #define SLEEPLOCKS    0 /* =1 for printing sleeplock status to console */
+-#define IBAM          0 /* =1 for printing adaptive battery time */
++#define IBAM          1 /* =1 for printing adaptive battery time */
+ 
+ /* module_pmac.c & module_imac.c */
+-#define PMUINTR       0 /* =1 for printing PMU interrupts to console */
+-#define PMUTALK       0 /* =1 for logging PMU communication into /var/log/pbbuttonsd */
++#define PMUINTR       1 /* =1 for printing PMU interrupts to console */
++#define PMUTALK       1 /* =1 for logging PMU communication into /var/log/pbbuttonsd */
+ #define TRACKPAD      0 /* =1 for debugging dynamic trackpad reconfiguration */
+ 
+ /* module_cdrom.c */
+-#define CDROM         0 /* =1 mount and status information */
+-#define CDROMPERF     0 /* =1 for printing CDROM performance data to console */
++#define CDROM         1 /* =1 mount and status information */
++#define CDROMPERF     1 /* =1 for printing CDROM performance data to console */
+ 
+ /* module_display.c */
+ #define BRIGHTNESS    0 /* =1 show current brightness values of KBD and LCD */
+@@ -49,8 +49,8 @@
+ #define PEEP_NOCYCLIC 1 /* =1, some cyclic tags will be filtered out */
+ 
+ /* module_acpi.c */
+-#define ACPI_EVENTS   0 /* =1, show information about ACPI events */
+-#define ACPI_PATHS    0 /* =1, show ACPI files, selected for polling */
++#define ACPI_EVENTS   1 /* =1, show information about ACPI events */
++#define ACPI_PATHS    1 /* =1, show ACPI files, selected for polling */
+ #define ACPI_BATTERY  0 /* =1, show information about ACPI batteries */
+ 
+ #endif    /* INCLUDE_DEBUG_H */
+--- pbbuttonsd-0.8.1a.orig/src/module_pmac.c
++++ pbbuttonsd-0.8.1a/src/module_pmac.c
+@@ -552,7 +552,7 @@ pmac_pmu_handler (int fd, gpointer user_
+ 			/* n = 2 && intr[1] = 0x0c = %01100 power button on mac-mini */
+ 			/* n = 6 && intr[1] = 0x1c = %11100 if power button is pressed */
+ 			/* n = 6 && intr[1] = 0x15 = %10101 after cover close */
+-			if (n == 6 && ((intr[1] >> 3) & 1) != PBpressed) {
++			if (n == 2 && intr[1] == 0x0c ) {
+ 				PBpressed = (intr[1] >> 3) & 1;
+ 				taglist_init (taglist);
+ 				taglist_add (taglist, TAG_KEYCODE, KEY_POWER);
+@@ -563,8 +563,7 @@ pmac_pmu_handler (int fd, gpointer user_
+ 			break;
+ 		}
+ #if defined(DEBUG) && PMUINTR
+-#error bla
+-		printf ("\nPMU interrupt: ");
++		printf ("\nPMU interrupt: (%d)\n", n);
+ 		for (i=0; i < n; i++)
+ 			printf ("%.2x ", intr[i]);
+ 		printf ("\n");

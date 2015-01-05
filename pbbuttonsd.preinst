@@ -4,8 +4,8 @@ set -e
 
 # use vars to avoid typos
 OLD_DIR=/etc/pbbuttons
-OLD_CONF=/etc/pbbuttons/pbbuttonsd.conf
-NEW_CONF=/etc/pbbuttonsd.conf
+OLD_CONF=/etc/pbbuttons/pbbuttonsd.cnf
+NEW_CONF=/etc/pbbuttonsd.cnf
 
 do_upgrade () {
     # if only the old files exist, move them to the new

@@ -1,0 +1,51 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ pbbuttonsd (0.8.1a-1) UNRELEASED; urgency=low
+ .
+   * New upstream
+Author: Mathieu Malaterre <malat@debian.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+Index: pbbuttonsd-0.8.1a/src/module_pmac.c
+===================================================================
+--- pbbuttonsd-0.8.1a.orig/src/module_pmac.c	2015-01-05 14:26:29.000000000 +0100
++++ pbbuttonsd-0.8.1a/src/module_pmac.c	2015-01-05 14:26:29.000000000 +0100
+@@ -563,6 +563,7 @@
+ 			break;
+ 		}
+ #if defined(DEBUG) && PMUINTR
++#error bla
+ 		printf ("\nPMU interrupt: ");
+ 		for (i=0; i < n; i++)
+ 			printf ("%.2x ", intr[i]);
+Index: pbbuttonsd-0.8.1a/src/Makefile.am
+===================================================================
+--- pbbuttonsd-0.8.1a.orig/src/Makefile.am	2007-07-01 13:05:21.000000000 +0200
++++ pbbuttonsd-0.8.1a/src/Makefile.am	2015-01-05 14:32:04.263225945 +0100
+@@ -35,9 +35,7 @@
+ pbbuttonsd_LDFLAGS = -L$(top_srcdir)/libpbbipc
+ pbbuttonsd_DEPENDENCIES = $(PB_OBJECTS)
+ 
+-if DEBUG
+ AM_CFLAGS1 = -DDEBUG
+ AM_CXXFLAGS = -DDEBUG
+-endif
+ 
+ AM_CFLAGS = $(AM_CFLAGS1) $(ALSA_CFLAGS)

@@ -4,8 +4,8 @@ set -e
 
 # use vars to avoid typos
 OLD_DIR=/etc/pbbuttons
-OLD_CONF=/etc/pbbuttons/pbbuttonsd.conf
-NEW_CONF=/etc/pbbuttonsd.conf
+OLD_CONF=/etc/pbbuttons/pbbuttonsd.cnf
+NEW_CONF=/etc/pbbuttonsd.cnf
 
 if [ "$1" = "configure" ] && [ "x$2" != x ]; then
 
