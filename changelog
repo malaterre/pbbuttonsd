@@ -1,3 +1,9 @@
+pbbuttonsd (0.8.1a-1) UNRELEASED; urgency=low
+
+  * New upstream
+
+ -- Mathieu Malaterre <malat@debian.org>  Mon, 05 Jan 2015 14:01:41 +0100
+
 pbbuttonsd (0.7.9-3) unstable; urgency=low
 
   * QA upload.
